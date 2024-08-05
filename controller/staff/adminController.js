@@ -1,11 +1,27 @@
+const Admin = require("../../model/staff/Admin");
+
 
 // register admin
-exports.registerAdminController = (req, res) => {
+exports.registerAdminController = async (req, res) => {
+    console.log("req>BODY", req.body)
+    const {name, email, password} = req.body;
+
     try {
-        res.status(201).json({
-            status: 'Success',
-            data: 'Admin has been registered'
-        });
+        const adminFound = await Admin.findOne({email})
+        if(adminFound){
+            res.json('Admin Exits')
+        }else{
+            const user = await Admin.create({
+                name,
+                email,
+                password,
+            });
+            res.status(201).json({
+                status: 'Success',
+                data: user
+            });
+        }
+        
     } catch (error) {
         res.json({
             status: 'failed',
