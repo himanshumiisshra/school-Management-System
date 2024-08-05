@@ -33,6 +33,10 @@ adminSchema.pre('save', async function (next) {
     next();
 })
 
+//verify password
+adminSchema.methods.verifyPassword = async function(enteredPassword){
+    return await bcrypt.compare(enteredPassword, this.password);
+}
 
 //model
 const Admin = mongoose.model("Admin", adminSchema)

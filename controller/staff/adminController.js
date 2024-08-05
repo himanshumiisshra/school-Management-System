@@ -30,8 +30,19 @@ exports.registerAdminController = async (req, res) => {
     }
 }
 
-exports.loginAdminController = (req, res) => {
+exports.loginAdminController =async (req, res) => {
+    const {email, password} = req.body;
     try {
+        const user =await Admin.findOne ({email});
+        if(!user){
+            return res.json({message: "Invalid credentials!"})
+        }
+
+        if(user && await user.verifyPassword(password)){
+            return res.json({data: user})
+        }else {
+            return res.json({message: "Invalid credentials!"})
+        }
         res.status(201).json({
             status: 'Success',
             data: 'Admin has been logged In'
