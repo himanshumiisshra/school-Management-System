@@ -11,4 +11,11 @@ const globaErrorHandler = (err, req, res, next) => {
     });
 }
 
-module.exports = globaErrorHandler;
+//not found
+
+const notFound = (req,res,next) => {
+    const err = new Error(`Can't find ${req.originalUrl} on the server`)
+    next(err);
+}
+
+module.exports = {globaErrorHandler,notFound};
