@@ -13,7 +13,7 @@ adminRouter.post("/login", loginAdminController);
 adminRouter.get("/", getAllAdmins);
 
 //get single admin
-adminRouter.get("/:id",isLogin, getSingleAdmin);
+adminRouter.get("/profile",isLogin, getSingleAdmin);
 
 //update admin
 adminRouter.put("/:id", updateAdmin);

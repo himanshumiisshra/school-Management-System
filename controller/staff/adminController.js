@@ -1,5 +1,7 @@
 const Admin = require("../../model/staff/Admin");
 const AsyncHandler = require('express-async-handler')
+const generateToken = require("../../utils/generateToken")
+const verifyToken = require("../../utils/verifyToken")
 
 // register admin
 exports.registerAdminController = AsyncHandler(async (req, res) => {
@@ -15,34 +17,44 @@ exports.registerAdminController = AsyncHandler(async (req, res) => {
             });
             res.status(201).json({
                 status: 'Success',
-                data: user
+                data: user,
+                message: "Admin registered successfully"
             });
         }
         
 });
 
-exports.loginAdminController =async (req, res) => {
+exports.loginAdminController =AsyncHandler(async (req, res) => {
     const {email, password} = req.body;
-    try {
+   
         const user =await Admin.findOne ({email});
         if(!user){
             return res.json({message: "Invalid credentials!"})
         }
 
         if(user && await user.verifyPassword(password)){
-            //save user data to req Object
-            req.userAuth = user;
-            return res.json({data: user})
+            // //save user data to req Object
+            // req.userAuth = user;
+            const token = generateToken(user._id)
+            // if(token){
+              const verify=   verifyToken(token)
+              console.log("VERIFY-HM", verify)
+            // }
+            return res.json({
+                data: generateToken(user._id),
+                message: "Admin logged in successfully"
+
+            });
+
         }else {
             return res.json({message: "Invalid credentials!"})
         }
-    } catch (error) {
+    
         res.json({
             status: 'failed',
             error: error.message,
         })
-    }
-}
+}) 
 
 exports.getAllAdmins = (req, res) => {
     try {
@@ -58,19 +70,20 @@ exports.getAllAdmins = (req, res) => {
     }
 }
 
-exports.getSingleAdmin = (req, res) => {
-    try {
-        res.status(201).json({
-            status: 'Success',
-            data: 'getting Single Admin'
-        })
-    } catch (error) {
-        res.json({
-            status: 'failed',
-            error: error.message,
+exports.getSingleAdmin = AsyncHandler(async(req, res) => {
+    console.log(req.userAuth)
+    const admin = await Admin.findById(req.userAuth._id).select('-password -createdAt -updatedAt')
+    // console.log("admin",admin)
+    if(!admin){
+        throw new Error('Admin not found')
+    }else {
+        res.status(200).json({
+            status: 'success',
+            data: admin,
+            message: "Admin profile fetched successfully"
         })
     }
-}
+})
 
 exports.updateAdmin = (req, res) => {
     try {
