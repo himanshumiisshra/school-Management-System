@@ -2,6 +2,7 @@ const express = require('express');
 const { unpublishTeacher, publishingExam, unwithdrawTeacher, withdrawTeacher, unsuspendTeacher, suspendTeacher, deleteAdmin, registerAdminController, updateAdmin, getSingleAdmin, loginAdminController, getAllAdmins } = require('../../controller/staff/adminController')
 const adminRouter = express.Router();
 const isLogin = require("../../middlewares/isLogin");
+const isAdmin = require("../../middlewares/isAdmin");
 
 //register
 adminRouter.post("/register", registerAdminController);
@@ -10,13 +11,13 @@ adminRouter.post("/register", registerAdminController);
 adminRouter.post("/login", loginAdminController);
 
 //get all admins
-adminRouter.get("/", getAllAdmins);
+adminRouter.get("/",isLogin, getAllAdmins);
 
 //get single admin
-adminRouter.get("/profile",isLogin, getSingleAdmin);
+adminRouter.get("/profile",isLogin, isAdmin,getSingleAdmin);
 
 //update admin
-adminRouter.put("/:id", updateAdmin);
+adminRouter.put("/",isLogin,isAdmin, updateAdmin);
 
 //delete admin
 adminRouter.delete("/:id", deleteAdmin);

@@ -13,7 +13,8 @@ const isLogin = async (req, res, next) => {
     // }
     // get token from header
     const headerObf = req.headers;
-    const token = headerObf.authorization.split(" ")[1];
+     const token = headerObf?.authorization?.split(" ")[1];
+    // const token =  headerObf && headerObf.authorization && headerObf.authorization.split(" ")[1]
     console.log("token", token)
     // verify the token
     const verifiedToken = verifyToken(token)
