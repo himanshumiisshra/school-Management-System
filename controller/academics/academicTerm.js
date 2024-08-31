@@ -3,6 +3,7 @@ const AcademicTerm = require("../../model/academics/AcademicTerm");
 const Admin = require("../../model/staff/Admin");
 
 exports.createAcademicTerm = AsyncHandler(async (req, res) => {
+    console.log("Request BODY>>", req.body)
     const { name, description, duration, createdBy } = req.body;
 
     const academicTerm = await AcademicTerm.findOne({ name })
@@ -37,7 +38,7 @@ exports.getAllAcademicTerm = AsyncHandler(async (req, res) => {
     throw new Error("Cannot Fetch All Academic Terms")
 })
 
-exports.getSingleAcademicTer = AsyncHandler(async (req, res) => {
+exports.getSingleAcademicTerm = AsyncHandler(async (req, res) => {
     const singleAcademicTerm = await AcademicTerm.findById(req.params.id)
     if (singleAcademicTerm) {
         res.status(201).json({

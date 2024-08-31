@@ -2,7 +2,8 @@ const express = require('express')
 const adminRouter = require("../routes/staff/adminRouter")
 const morgan = require('morgan')
 const {globaErrorHandler, notFound} = require("../middlewares/globalErrorHandler");
-const academicYearRouter = require("../routes/academics/academicYear")
+const academicYearRouter = require("../routes/academics/academicYear");
+const academicTermRouter = require('../routes/academics/academicTerm');
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use(express.json())
 app.use('/api/v1/admins', adminRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/academicYear', academicYearRouter);
+app.use('/api/v1/academicTerm', academicTermRouter);
 
 //Error Middleware
 app.use(notFound);
