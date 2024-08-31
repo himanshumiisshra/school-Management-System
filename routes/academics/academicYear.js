@@ -11,7 +11,7 @@ const academicYearRouter = express.Router();
 
 academicYearRouter.route("/").post(isLogin,isAdmin,createAcademicYear).get(isLogin,isAdmin,getAllAcademicYear);
 
-academicYearRouter.route(":/id").get(isLogin,isAdmin, getSingleAcademicYear).put(isLogin, isAdmin,updateAcademicYear).delete(isLogin, isAdmin,deleteAcademicYear)
+academicYearRouter.route("/:id").get(isLogin,isAdmin, getSingleAcademicYear).put(isLogin, isAdmin,updateAcademicYear).delete(isLogin, isAdmin,deleteAcademicYear)
 
 // academicYearRouter.get("/:id",isLogin,isAdmin, getSingleAcademicYear)
 

@@ -40,7 +40,7 @@ exports.getAllAcademicTerm = AsyncHandler(async (req, res) => {
 })
 
 exports.getSingleAcademicTerm = AsyncHandler(async (req, res) => {
-    conosle.log("working",req.params.id)
+    console.log("working",req.params.id)
     const singleAcademicTerm = await AcademicTerm.findById(req.params.id)
     if (singleAcademicTerm) {
         res.status(201).json({
@@ -58,7 +58,7 @@ exports.getSingleAcademicTerm = AsyncHandler(async (req, res) => {
 exports.updateAcademicTerm = AsyncHandler(async (req, res) => {
     console.log("working")
     const { name, description, duration } = req.body
-    console.log("req.body", req.body)
+    console.log("req.body", name)
     console.log("PARAMS",req.params.id)
 
     const createAcademicTermFound = await AcademicTerm.findOne({ name })
@@ -67,7 +67,7 @@ exports.updateAcademicTerm = AsyncHandler(async (req, res) => {
         throw new Error('Academic Term already Exist')
     }
 
-    const updateAcademicTerm = await AcademicTerm.findByIdAndUpdate(req.query.id, {
+    const updateAcademicTerm = await AcademicTerm.findByIdAndUpdate(req.params.id, {
         name, description, duration, createdBy: req.userAuth._id
     }, { new: true })
 
