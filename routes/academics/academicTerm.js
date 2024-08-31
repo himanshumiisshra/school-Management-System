@@ -11,7 +11,7 @@ const academicTermRouter = express.Router();
 // academicTermRiuter.put(":/id", isLogin, isAdmin,updateAcademicTerm )
 // academicTermRiuter.delete(":/id", isLogin,isAdmin, deleteAcademicTerm)
 
-academicTermRouter.route("/").post(isLogin,isAdmin,createAcademicTerm).get(isLogin,isAdmin,getAllAcademicTerm)
-academicTermRouter.route("/:id").get(isLogin,isAdmin, getSingleAcademicTerm).put(isLogin, isAdmin, updateAcademicTerm).delete(isLogin, isAdmin, deleteAcademicTerm)
+academicTermRouter.route("/").post(isLogin,isAdmin,createAcademicTerm).get(isLogin,isAdmin,getAllAcademicTerm);
+academicTermRouter.route("/:id").get(isLogin,isAdmin, getSingleAcademicTerm).put(isLogin,isAdmin,updateAcademicTerm).delete(isLogin, isAdmin, deleteAcademicTerm)
 
 module.exports = academicTermRouter;

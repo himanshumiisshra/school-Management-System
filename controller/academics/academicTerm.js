@@ -3,7 +3,6 @@ const AcademicTerm = require("../../model/academics/AcademicTerm");
 const Admin = require("../../model/staff/Admin");
 
 exports.createAcademicTerm = AsyncHandler(async (req, res) => {
-    console.log("Request BODY>>", req.body)
     const { name, description, duration, createdBy } = req.body;
 
     const academicTerm = await AcademicTerm.findOne({ name })
@@ -14,7 +13,7 @@ exports.createAcademicTerm = AsyncHandler(async (req, res) => {
     const academicTermCreated = await AcademicTerm.create({
         name, description, duration, createdBy
     });
-    const admin = await Admin.findById(req.userAuth, _id);
+    const admin = await Admin.findById(req.userAuth._id);
     admin.academicTerms.push(academicTermCreated._id)
     await admin.save()
 
@@ -34,11 +33,14 @@ exports.getAllAcademicTerm = AsyncHandler(async (req, res) => {
             message: "All Academic Term Data fetched Successfully",
             data: academicTerm
         })
+    } else {
+        throw new Error("Cannot Fetch All Academic Terms")
     }
-    throw new Error("Cannot Fetch All Academic Terms")
+
 })
 
 exports.getSingleAcademicTerm = AsyncHandler(async (req, res) => {
+    conosle.log("working",req.params.id)
     const singleAcademicTerm = await AcademicTerm.findById(req.params.id)
     if (singleAcademicTerm) {
         res.status(201).json({
@@ -46,13 +48,18 @@ exports.getSingleAcademicTerm = AsyncHandler(async (req, res) => {
             message: "Single Term Fetched Successfully",
             data: singleAcademicTerm
         })
+    } else {
+        throw new Error("cannot fetch Single Academic Term")
     }
-    throw new Error("cannot fetch Single Academic Term")
+
 
 })
 
 exports.updateAcademicTerm = AsyncHandler(async (req, res) => {
-    const { name, description, duration, createdBy } = req.body
+    console.log("working")
+    const { name, description, duration } = req.body
+    console.log("req.body", req.body)
+    console.log("PARAMS",req.params.id)
 
     const createAcademicTermFound = await AcademicTerm.findOne({ name })
 
@@ -60,17 +67,21 @@ exports.updateAcademicTerm = AsyncHandler(async (req, res) => {
         throw new Error('Academic Term already Exist')
     }
 
-    const updateAcademicTerm = await AcademicTerm.findByIdAndUpdate(req.params.id, {
-        name, description, duration, createdBy
+    const updateAcademicTerm = await AcademicTerm.findByIdAndUpdate(req.query.id, {
+        name, description, duration, createdBy: req.userAuth._id
     }, { new: true })
 
     if (updateAcademicTerm) {
         res.status(201).json({
             status: "success",
-            message: "Successfully updated Academic Term"
+            message: "Successfully updated Academic Term",
+            data: updateAcademicTerm
         })
     }
-    throw new Error("Failed to UPDATE")
+    else {
+        throw new Error("Failed to UPDATE")
+    }
+
 })
 
 exports.deleteAcademicTerm = AsyncHandler(async (req, res) => {

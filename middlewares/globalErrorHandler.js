@@ -14,6 +14,7 @@ const globaErrorHandler = (err, req, res, next) => {
 //not found
 
 const notFound = (req,res,next) => {
+    console.log(req)
     const err = new Error(`Can't find ${req.originalUrl} on the server`)
     next(err);
 }
