@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const {globaErrorHandler, notFound} = require("../middlewares/globalErrorHandler");
 const academicYearRouter = require("../routes/academics/academicYear");
 const academicTermRouter = require('../routes/academics/academicTerm');
+const classLevelRouter = require("../routes/academics/classLevel")
 
 const app = express();
 
@@ -57,6 +58,7 @@ app.use('/api/v1/admins', adminRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/academicYear', academicYearRouter);
 app.use('/api/v1/academicTerm', academicTermRouter);
+app.use('/api/v1/classLevel', classLevelRouter )
 
 //Error Middleware
 app.use(notFound);
