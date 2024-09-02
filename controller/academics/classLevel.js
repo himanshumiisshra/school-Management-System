@@ -89,7 +89,7 @@ exports.updateClassLevel = AsyncHandler(async (req, res) => {
 exports.deleteClassLevel = AsyncHandler(async (req, res) => {
     const deleteClassLevel = await classLevel.findByIdAndDelete(req.params.id)
 
-    if(deleteClassLevel){
+    if (deleteClassLevel) {
         res.status(201).json({
             status: "Success",
             message: 'Class Level Deleted Successfully'

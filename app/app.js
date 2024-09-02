@@ -5,6 +5,9 @@ const {globaErrorHandler, notFound} = require("../middlewares/globalErrorHandler
 const academicYearRouter = require("../routes/academics/academicYear");
 const academicTermRouter = require('../routes/academics/academicTerm');
 const classLevelRouter = require("../routes/academics/classLevel")
+const program = require("../routes/academics/program");
+const subject = require("../routes/academics/subject");
+const yearGroup = require("../routes/academics/yearGroup")
 
 const app = express();
 
@@ -59,6 +62,9 @@ app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/academicYear', academicYearRouter);
 app.use('/api/v1/academicTerm', academicTermRouter);
 app.use('/api/v1/classLevel', classLevelRouter )
+app.use('/api/v1/program', program)
+app.use('/api/v1/subject', subject)
+app.use('api/v1/yeargroup', yearGroup)
 
 //Error Middleware
 app.use(notFound);
