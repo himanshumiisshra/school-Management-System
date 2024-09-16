@@ -3,22 +3,23 @@ const classLevel = require("../../model/academics/ClassLevel")
 const Admin = require("../../model/staff/Admin");
 
 exports.createClassLevel = AsyncHandler(async (req, res) => {
-    const { name, description, students, subjects, teachers } = req.body
+    console.log("working", req.body)
+    const { name, description } = req.body
 
     const CheckclassLevel = await classLevel.findOne({ name })
 
-    if (CheckclassLevel) {
+    if (CheckclassLevel) {console.log("checking")
         throw new Error("Class Level already Exist")
     }
 
     const classLevelCreated = await classLevel.create({
-        name, description, students, subjects, teachers
+        name, description,createdBy: req.userAuth._id
     });
     const admin = await Admin.findById(req.userAuth._id)
 
     admin.classLevels.push(classLevelCreated._id)
 
-    await admin.save()
+     await admin.save()
 
     res.status(201).json({
         status: "Success",
@@ -45,7 +46,7 @@ exports.getAllClassLevel = AsyncHandler(async (req, res) => {
     }
 })
 
-exports.getSingleClassLevel.AsyncHandler(async (req, res) => {
+exports.getSingleClassLevel = AsyncHandler(async (req, res) => {
     const singleClassLevel = await classLevel.findById(req.params.id)
 
     if (singleClassLevel) {
@@ -61,7 +62,7 @@ exports.getSingleClassLevel.AsyncHandler(async (req, res) => {
 })
 
 exports.updateClassLevel = AsyncHandler(async (req, res) => {
-    const { name, description, students, subjects, teachers } = req.body;
+    const { name, description } = req.body;
 
     const createdClassLevelFound = await classLevel.findOne({ name })
 
@@ -70,7 +71,7 @@ exports.updateClassLevel = AsyncHandler(async (req, res) => {
     }
 
     const updateClassLevel = await classLevel.findByIdAndUpdate(req.params.id, {
-        name, description, students, subjects, teachers
+        name, description
     }, { new: true })
 
     if (updateClassLevel) {

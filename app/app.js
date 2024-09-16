@@ -64,7 +64,7 @@ app.use('/api/v1/academicTerm', academicTermRouter);
 app.use('/api/v1/classLevel', classLevelRouter )
 app.use('/api/v1/program', program)
 app.use('/api/v1/subject', subject)
-app.use('api/v1/yeargroup', yearGroup)
+app.use('/api/v1/yeargroup', yearGroup)
 
 //Error Middleware
 app.use(notFound);

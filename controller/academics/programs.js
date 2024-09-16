@@ -3,15 +3,20 @@ const programs = require("../../model/academics/Program")
 const Admin = require("../../model/staff/Admin")
 
 exports.createPrograms = AsyncHandler(async (req, res) => {
-    const {name, description, duration} =req.body;
+    const {name, description} =req.body;
     const programFound = await Admin.findOne({name})
     if(programFound){
         throw new Error("Program alreadt exist")
     }
 
     const program = await programs.create({
-        name, description, duration
+        name, description, createdBy:req.userAuth._id   
     })
+    const admin = await Admin.findById(req.userAuth._id)
+
+    admin.programs.push(program._id)
+
+    await admin.save()
 
     res.status(201).json({
         status: "Success",

@@ -1,19 +1,31 @@
 const AsyncHandler = require("express-async-handler");
 const yearGroup = require("../../model/academics/YearGroup");
-const admin = require("../../model/staff/Admin")
+const admin = require("../../model/staff/Admin");
+const Admin = require("../../model/staff/Admin");
 
 exports.createYearGroup = AsyncHandler(async (req,res) => {
-    const {name} = req.body;
+    const {name, academicYear} = req.body;
 
-    const yearGroup = await yearGroup.findOne({name})
+    const yearG = await yearGroup.findOne({name})
 
-    if(yearGroup){
+    if(yearG){
         throw new Error("Year Group already exist")
     }
 
     const yearGroupCreated = await yearGroup.create({
-        name
+        name,
+        academicYear,
+        createdBy: req.userAuth._id
+        
     })
+
+    const admin = await Admin.findById(req.userAuth._id)
+
+    if(!admin){
+        throw new Error("admin not found")
+    }
+
+    admin.yearGroups.push(yearGroup._id)
 
     res.status(201).json({
         status: "Success",
@@ -53,7 +65,7 @@ exports.getSingleYearGroup = AsyncHandler(async (req,res) => {
 })
 
 exports.updateYearGroup = AsyncHandler(async (req,res) => {
-    const {name} = req.body;
+    const {name, academicYear} = req.body;
 
     const ygFound = await yearGroup.findOne({name})
 
@@ -62,7 +74,8 @@ exports.updateYearGroup = AsyncHandler(async (req,res) => {
     }
 
     const yearGroupFound = await yearGroup.findByIdAndUpdate(req.params.id, {
-        name
+        name,
+        academicYear
     })
 
     if(yearGroupFound){
