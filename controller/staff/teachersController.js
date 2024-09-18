@@ -1,6 +1,7 @@
 const AsyncHandler = require("express-async-handler")
 const Teacher = require("../../model/staff/Teacher")
 const {  isPasswordMatched, hashedPassword } = require("../../utils/helpers")
+const generateToken = require("../../utils/generateToken")
 
 exports.adminRegisterTeacher = AsyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
@@ -25,4 +26,63 @@ exports.adminRegisterTeacher = AsyncHandler(async (req, res) => {
 
 
 
+});
+
+exports.loginTeacher = AsyncHandler(async(req,res) => {
+    const {email, password} = req.body
+
+    const teach = await Teacher.findOne({email});
+
+    if(!teach){
+        return res.json({message: "Invalid login credentials"})
+    }
+
+    const isMatched =   await isPasswordMatched(password,teach?.password)
+    if(!isMatched){
+        return res.json({message: "Invalid credentials"})
+    }else{
+        console.log("checking teacher loh=gin datas",teach)
+res.status(200).json({
+    status: "Success",
+    message: "Teacher Logged In Succesfullt",
+    data: generateToken(teach?._id)
+})
+    }
+});
+
+exports.getAllTeacher = AsyncHandler(async (req,res) => {
+    const teachers = await Teacher.find()
+    res.status(200).json({
+        status: "Success",
+        message: "All Teachers Fetched Successfully",
+        data: teachers
+    })
+});
+
+exports.getSingleTeacher = AsyncHandler(async(req,res) => {
+    const TeacherID = req.params.teacherID
+    const teacher = await Teacher.findById(TeacherID)
+    if(teacher){
+        res.status(200).json({
+            status: "Success",
+            message: "Teacher Fetched Successfullly",
+            data: teacher
+        })
+    }else{
+        throw new Error("Cannot found Teacher provided ID")
+    }
+});
+
+exports.getTeacherProfile = AsyncHandler(async (req,res) => {
+    console.log("tracing")
+    const teacher = await Teacher.findById(req.userAuth._id).select('-apssword -createdAt -updatedAt')
+    if(!teacher){
+        throw new Error("teacher not found")
+    }else {
+        res.status(200).json({
+            status: "Success",
+            message: "Teacher Profile Fteched Successfully",
+            data: teacher
+        })
+    }
 })
