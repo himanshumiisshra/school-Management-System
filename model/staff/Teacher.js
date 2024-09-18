@@ -53,20 +53,21 @@ const teacherSchema = new mongoose.Schema({
         default: "pending",
     },
     program: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "Program",
         // required: true
     },
     classLevel: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "ClassLevel",
         // required: true,
 
     },
 
     academicYear: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "AcademicYear",
+        type: String
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: "AcademicYear",
         // required: true,
     },
     examsCreated: [{
@@ -80,8 +81,9 @@ const teacherSchema = new mongoose.Schema({
         // required: true,
     },
     academicTerm: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "AcademicTerm",
+        type: String
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: "AcademicTerm",
         // requred: true,
     }
 

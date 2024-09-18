@@ -8,10 +8,11 @@ const isTeacherLogin = async (req,res, next) => {
 
     const verifyTok = verifyToken(token)
     if(verifyTok){
-        const user  = await Teacher.findById(verifyTok._id).select(
+        console.log("token verified Succesfully",verifyTok)
+        const user  = await Teacher.findById(verifyTok.id).select(
             "name email role"
         );
-
+        console.log("encoded DATA",user)
         req.userAuth = user;
         next();
 
