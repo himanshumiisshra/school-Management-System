@@ -7,7 +7,8 @@ const academicTermRouter = require('../routes/academics/academicTerm');
 const classLevelRouter = require("../routes/academics/classLevel")
 const program = require("../routes/academics/program");
 const subject = require("../routes/academics/subject");
-const yearGroup = require("../routes/academics/yearGroup")
+const yearGroup = require("../routes/academics/yearGroup");
+const teacherRouter = require("../routes/staff/teachersRoute");
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use('/api/v1/classLevel', classLevelRouter )
 app.use('/api/v1/program', program)
 app.use('/api/v1/subject', subject)
 app.use('/api/v1/yeargroup', yearGroup)
+app.use('/api/v1/teachers', teacherRouter)
 
 //Error Middleware
 app.use(notFound);

@@ -1,6 +1,6 @@
 const AsyncHandler = require("express-async-handler");
 const yearGroup = require("../../model/academics/YearGroup");
-const admin = require("../../model/staff/Admin");
+// const admin = require("../../model/staff/Admin");
 const Admin = require("../../model/staff/Admin");
 
 exports.createYearGroup = AsyncHandler(async (req,res) => {
@@ -25,7 +25,8 @@ exports.createYearGroup = AsyncHandler(async (req,res) => {
         throw new Error("admin not found")
     }
 
-    admin.yearGroups.push(yearGroup._id)
+    admin.yearGroups.push(yearGroupCreated._id)
+    await admin.save()
 
     res.status(201).json({
         status: "Success",

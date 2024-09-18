@@ -45,7 +45,7 @@ const teacherSchema = new mongoose.Schema({
     subject: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "course",
-        required: true,
+        // required: true,
     },
     appicationStatus: {
         type: String,
@@ -55,19 +55,19 @@ const teacherSchema = new mongoose.Schema({
     program: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Program",
-        required: true
+        // required: true
     },
     classLevel: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "ClassLevel",
-        required: true,
+        // required: true,
 
     },
 
     academicYear: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "AcademicYear",
-        required: true,
+        // required: true,
     },
     examsCreated: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -75,14 +75,14 @@ const teacherSchema = new mongoose.Schema({
     }
     ],
     createdBy: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Admin",
-        required: true,
+        // required: true,
     },
     academicTerm: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "AcademicTerm",
-        requred: true,
+        // requred: true,
     }
 
 
