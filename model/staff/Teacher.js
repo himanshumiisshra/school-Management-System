@@ -43,9 +43,13 @@ const teacherSchema = new mongoose.Schema({
         default: "teacher",
     },
     subject: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "course",
+        type: String
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: "course",
         // required: true,
+    },
+    duration: {
+        type:String
     },
     appicationStatus: {
         type: String,
@@ -54,7 +58,7 @@ const teacherSchema = new mongoose.Schema({
     },
     program: {
         type: String,
-        ref: "Program",
+        // ref: "Program",
         // required: true
     },
     classLevel: {
