@@ -88,8 +88,12 @@ exports.updateExam = AsyncHandler(async (req,res) => {
         examDate,
         examTime,
         examType,
-        academicYear}
+        academicYear},
+        {
+            new : true
+        }
     )
+
     if(exam){
         res.status(200).json({
             status: "Success",
