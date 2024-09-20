@@ -66,14 +66,15 @@ const examSchema = new Schema({
         }
     ],
     classLevel: {
-        type: Schema.Types.ObjectId,
-        ref: "ClassLevel",
-        required: true,
+        type:String
+        // type: Schema.Types.ObjectId,
+        // ref: "ClassLevel",
+        // required: true,
     },
     createdBy: {
         type: Schema.Types.ObjectId,
         ref: "Teacher",
-        required: true,
+        // required: true,
     },
     // academicTerm: {
     //     type: Schema.Types.ObjectId,

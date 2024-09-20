@@ -13,7 +13,6 @@ exports.createExam = AsyncHandler(async (req, res) => {
         examDate,
         examTime,
         examType,
-        createdBy,
         academicYear
     } = req.body
 
@@ -28,7 +27,7 @@ exports.createExam = AsyncHandler(async (req, res) => {
     }
 
     const examCreated = await new Exam({
-        name,description,subject,program,academicTerm,duration,examDate,examTime,examType,createdBy,academicYear
+        name,description,subject,program,academicTerm,duration,examDate,examTime,examType,academicYear
         
     });
     teacherFound.examsCreated.push(examCreated._id)
@@ -40,4 +39,62 @@ exports.createExam = AsyncHandler(async (req, res) => {
         message: 'exam created Successfully',
         data: examCreated
     })
+});
+
+exports.getAllExams = AsyncHandler(async (req,res) => {
+    const exam =await Exam.find({})
+    if(exam){
+        res.status(200).json({
+            status: "Success",
+            message: "All Exams Fetched Successfully",
+            data: exam
+        })
+    }
+});
+
+exports.getSingleExam = AsyncHandler(async (req,res) => {
+    const ID = req.params.id
+    console.log(ID)
+    const exam = await Exam.findById(ID)
+    if(exam){
+        res.status(200).json({
+            status: "Success",
+            message: "Single exam Fetched Successfully",
+            data: exam
+        })
+    }
+});
+
+exports.updateExam = AsyncHandler(async (req,res) => {
+    const {name,
+        description,
+        subject,
+        program,
+        academicTerm,
+        duration,
+        examDate,
+        examTime,
+        examType,
+        academicYear} = req.body
+    const ID = req.params.id
+
+    const exam = await Exam.findByIdAndUpdate(ID, {
+        name,
+        description,
+        subject,
+        program,
+        academicTerm,
+        duration,
+        examDate,
+        examTime,
+        examType,
+        academicYear}
+    )
+    if(exam){
+        res.status(200).json({
+            status: "Success",
+            message: "Exam Updated Successfully",
+            data: exam
+        })
+    }
 })
