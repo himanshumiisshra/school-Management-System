@@ -45,7 +45,7 @@ const studentSchema = new mongoose.Schema(
         academicYear: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "AcademicYear",
-            required: true,
+            // required: true,
         },
         dateAdmitted: {
             type: Date,
@@ -60,7 +60,7 @@ const studentSchema = new mongoose.Schema(
         program: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Program",
-            required: true,
+            // required: true,
         },
         isPromotedToLevel200: {
             type:Boolean,
