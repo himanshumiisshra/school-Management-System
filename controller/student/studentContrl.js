@@ -51,4 +51,64 @@ exports.loginStudent = AsyncHandler(async (req,res) => {
     }
 });
 
-export.getStudentProfile
+exports.getStudentProfile = AsyncHandler(async(req,res) => {
+    const student = await Student.findById(req.userAuth._id).select('-password -createdAt -updateAt')
+
+    if(!student){
+        throw new Error("student not found")
+    }else {
+        res.status(200).json({
+            status: "Success",
+            message: "Student Profile Fetched Successfully",
+            data: student
+        })
+    }
+});
+
+exports.getAllStudent = AsyncHandler(async (req,res) => {
+    const student = await Student.find()
+    res.status(200).json({
+        status: "Success",
+        message: "All Student Fetched Successfully",
+        data: student
+    })
+});
+
+exports.getSingleStudent = AsyncHandler(async (req,res) => {
+    const StudentID = req.params.id
+
+    const student = await Student.findById(StudentID)
+
+    if(student){
+        res.status(200).json({
+            status: "Success",
+            message: "Single Studend fetched Successfully",
+            data: student
+        })
+    }else {
+        throw new Error("cannot found Student with provided ID")
+    }
+});
+
+exports.updateStudent = AsyncHandler(async(req,res) => {
+    const studID = req.params.id
+
+    const {name,password, email} = req.body;
+
+    const student = await Student.findByIdAndUpdate(studID,{
+        name, email, password
+    },{new: true})
+
+    if(student){
+        res.status(200).json({
+            status: 'Success',
+            message: "student Updated Successfully",
+            data: student
+        })
+    }else {
+        throw new Error("connot Update")
+    }
+
+
+});
+

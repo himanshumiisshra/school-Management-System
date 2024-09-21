@@ -75,7 +75,7 @@ exports.getSingleTeacher = AsyncHandler(async (req, res) => {
 
 exports.getTeacherProfile = AsyncHandler(async (req, res) => {
     console.log("tracing")
-    const teacher = await Teacher.findById(req.userAuth._id).select('-apssword -createdAt -updatedAt')
+    const teacher = await Teacher.findById(req.userAuth._id).select('-password -createdAt -updatedAt')
     if (!teacher) {
         throw new Error("teacher not found")
     } else {
